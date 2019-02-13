@@ -22,7 +22,6 @@ class Player extends Component{
         this.setState({
             selectedCards : newSelectedCards
         })
-        console.log(newSelectedCards)
         console.log(this.state.selectedCards)
     }
 
@@ -38,7 +37,6 @@ class Player extends Component{
                 <div className="player-container">
                     {cards.map((card, i) => {
                         let selected = this.state.selectedCards.includes(card)
-                        console.log(selected)
                         return(<Card key={i} card={card} user="player" selectCard={this.selectCard} selected={selected}/>)
                     }
                     )}

@@ -3,14 +3,13 @@ import Player from './Player.js'
 import Opponent from './Opponent.js'
 import PlayingField from './PlayingField.jsx'
 import './Screen.css'
-import Rules from './Rules.js'
+import * as Rules from './Rules.js'
 import { throws } from 'assert';
 
 class Game extends Component{
     constructor(props){
         super(props)
         this.state = {
-            rules: new Rules(),
             playerCards: [],
             opponentCards: [],
             playerTurn: null,
@@ -25,17 +24,15 @@ class Game extends Component{
     }
 
     async resetGame(){
-        let rules = new Rules()
-        rules.newDeck()
+        let deck = Rules.newDeck()
         
-        let playerCards = await rules.setUserCards()
-        let opponentCards = await rules.setUserCards()
-        let playerTurn = rules.setFirstTurn(playerCards, opponentCards)
+        let playerCards = await Rules.setUserCards(deck)
+        let opponentCards = await Rules.setUserCards(deck)
+        let playerTurn = Rules.setFirstTurn(playerCards, opponentCards)
         console.log(playerCards)
         console.log(opponentCards)
         console.log(playerTurn)
         this.setState({
-            rules: rules,
             playerCards: playerCards,
             opponentCards: opponentCards,
             playerTurn: playerTurn
@@ -43,9 +40,10 @@ class Game extends Component{
     }
 
     playCards(cards){
-        if(this.state.rules.isValidPlay(this.state.lastMove, cards)){
+        console.log(Rules.isValidPlay(cards))
+        // if(Rules.isValidPlay(this.state.lastMove, cards)){
 
-        }
+        // }
     }
 
     render(){
