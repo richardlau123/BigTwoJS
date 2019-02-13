@@ -81,8 +81,73 @@ function isFourOfAKind(cards){
     return (values[0] === values[1] === values[2] === values[3]) || (values[4] === values[1] === values[2] === values[3])
 }
 
-function beatsLastMove(lastTurn, cards){
+export function isStrongerPlay(lastTurn, cards){
+    if(lastTurn.length !== cards.length) return false
 
+    if(cards.length <=2) {
+        return isStrongerPairing(lastTurn, cards)
+    } else {
+        let lastRank = getFiveCardRanking(lastTurn)
+        let currRank = getFiveCardRanking(cards)
+        if(lastRank < currRank) {
+            return true
+        } else if(lastRank === currRank){
+            return isStrongerFiveCardPlay(lastTurn, cards)
+        } 
+    }
+    return false
+}
+
+function isStrongerPairing(lastTurn,cards){
+    let lastCard = lastTurn[lastTurn.length-1]
+    let lastValue = lastCard.value + getSuitValue(lastCard.suit) 
+    let currCard = cards[cards.length-1]
+    let currValue = currCard.value + getSuitValue(currCard.suit) 
+    
+    return (currValue > lastValue)
+}
+
+function isStrongerFiveCardPlay(lastTurn, cards){
+    sortCards(lastTurn)
+    sortCards(cards)
+    let ranking = getFiveCardRanking(cards)
+    return (ranking === 1) ? isStrongerStraight(lastTurn, cards) : (ranking === 2) ? isStrongerFlush(lastTurn,cards) : (ranking === 3) ? isStrongerFullHouse(lastTurn, cards) : isStrongerFourOfAKind(lastTurn, cards) 
+}
+
+function isStrongerStraight(lastTurn, cards){
+    let lastVals = getCardValues(lastTurn)
+    let currVals = getCardValues(cards)
+    if(lastVals.includes(15) && !currVals.includes(15)){
+        return true
+    } else {
+        return lastVals.pop() <= currVals.pop()
+    }
+}
+
+function isStrongerFlush(lastTurn,cards){
+    let lastSuit = getSuitValue(lastTurn[0].suit) 
+    let currSuit = getSuitValue(cards[0].suit)
+    
+    if(lastSuit === currSuit){
+        return lastTurn[4].value < cards[4].value
+    } else {
+        return lastSuit < currSuit
+    }
+}
+
+function isStrongerFullHouse(lastTurn, cards){
+    return lastTurn[2].value < cards[2].value
+}
+
+function isStrongerFourOfAKind(lastTurn,cards) {
+    return lastTurn[2].value < cards[2].value
+}
+
+function getFiveCardRanking(cards){
+    if(isValidFiveCardPlay(cards)){
+        return (isStraight(cards) && isFlush(cards)) ? 5 : isStraight(cards) ? 1 : isFlush(cards) ? 2 : isFullHouse(cards) ? 3 : 4
+    }
+    console.log("ERROR INVALID 5 CARD COMBO")
 }
 
 export function setUserCards(deck){
