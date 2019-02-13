@@ -23,6 +23,62 @@
   color: #61dafb;
 }
 
+.screen-container {
+  background-color: #ffffff;
+  height: 800px;
+  width: 1200px;
+  display: flex;
+  justify-content: center;
+}
+
+.game-container {
+  background-color: #ffffff;
+  height: 800px;
+  width: 1200px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.player-container {
+  background-color:#c21212;
+  height: 300px;
+  width: 800px;
+  display: flex;
+  align-self: center;
+  align-items: center;
+}
+
+.opponent-container {
+  background-color:#12c247;
+  height: 300px;
+  width: 800px;
+  display: flex;
+  align-self: center;
+  align-items: center;
+}
+
+.card{
+  width: 90px;
+  height: 140px;
+  margin-right:-60px;
+}
+
+.selectedcard{
+  width: 90px;
+  height: 140px;
+  margin-right:-60px;
+  margin-bottom: 30px;
+  border: solid 2px white;
+  border-radius: 10px;
+
+}
+
+.card:hover{
+    margin-bottom: 20px
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
