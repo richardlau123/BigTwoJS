@@ -41,6 +41,14 @@
   flex-direction: column;
 }
 
+.player-action {
+  width: 50%;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center
+}
+
 .player-container {
   background-color:#c21212;
   height: 300px;

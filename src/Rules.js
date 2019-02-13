@@ -25,6 +25,30 @@ class Rules {
         return (suit === "D") ? 1 : (suit === "C") ? 2 : (suit === "H") ? 3 : 4
     }
 
+    isValidPlay(lastTurn, cards){
+        this.isValidCardPairing(cards)
+        if(lastTurn.length === cards.length){
+            if(cards.length === 5){
+                return this.isValidFiveCardPlay(cards)
+            } else if(cards.length < 4){
+                return this.isValidCardPairing(cards)
+            }
+        } 
+        
+        return false
+    }
+
+    isValidCardPairing(cards){
+        console.log(cards)
+    }
+
+    isValidFiveCardPlay(cards){
+
+    }
+    beatsLastMove(lastTurn, cards){
+
+    }
+
     setUserCards(){
         let userCards = []
         for(let i=0;i < 13;i++){

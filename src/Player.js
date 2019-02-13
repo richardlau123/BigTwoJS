@@ -6,23 +6,28 @@ class Player extends Component{
     constructor(props){
         super(props)
         this.state = {
-            selectedCards : new Set()
+            selectedCards : []
         }
         this.selectCard = this.selectCard.bind(this)
+        this.handlePlayClick = this.handlePlayClick.bind(this)
     }
 
     selectCard(card){
         let newSelectedCards = this.state.selectedCards
-        if(newSelectedCards.has(card) ) {
-            newSelectedCards.delete(card)
+        if(newSelectedCards.includes(card) ) {
+            newSelectedCards.splice(newSelectedCards.indexOf(card), 1)
         } else {
-            newSelectedCards.add(card)
+            newSelectedCards.push(card)
         }
         this.setState({
             selectedCards : newSelectedCards
         })
         console.log(newSelectedCards)
         console.log(this.state.selectedCards)
+    }
+
+    handlePlayClick(e){
+        this.props.playCards(this.state.selectedCards)
     }
 
     render(){
@@ -32,13 +37,14 @@ class Player extends Component{
             return(
                 <div className="player-container">
                     {cards.map((card, i) => {
-                        let selected = this.state.selectedCards.has(card)
+                        let selected = this.state.selectedCards.includes(card)
                         console.log(selected)
                         return(<Card key={i} card={card} user="player" selectCard={this.selectCard} selected={selected}/>)
                     }
                     )}
-                    <div>
-                        {/* <Button>Hello World</Button> */}
+                    <div className="player-action">
+                        <button onClick={this.handlePlayClick}>Play Cards</button>
+                        <button>Pass Turn</button>
                     </div>
                 </div>    
                 )
