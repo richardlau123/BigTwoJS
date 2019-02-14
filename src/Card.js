@@ -17,8 +17,8 @@ class Card extends Component{
     }
 
     render(){
+        let image = this.props.card.imagePath
         if(this.props.user === "player") {
-            let image = this.props.card.imagePath
             let cardClass = (this.props.selected) ? "selectedcard" : "card"
             console.log(cardClass)
             return(
@@ -28,7 +28,7 @@ class Card extends Component{
                     </div>
                 </React.Fragment>
             )
-        } else {
+        } else if(this.props.user === "opponent"){
             return(
                 <React.Fragment>
                     <div>
@@ -36,7 +36,15 @@ class Card extends Component{
                     </div>
                 </React.Fragment>
             )
-    }
+        } else {
+            return(
+                <React.Fragment>
+                    <div>
+                    <img onClick={this.handleClick} alt="card" className="card" src={imageDir[image]}></img>
+                    </div>
+                </React.Fragment>
+            )
+        }
 }}
 
 /** 

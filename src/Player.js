@@ -26,7 +26,15 @@ class Player extends Component{
     }
 
     handlePlayClick(e){
-        this.props.playCards(this.state.selectedCards)
+        if(this.props.playCards(this.state.selectedCards)) {
+            this.setState({
+                selectedCards: []
+            })
+        }
+    }
+
+    handlePassTurnClick(e){
+        this.props.passTurn()
     }
 
     render(){
@@ -42,7 +50,7 @@ class Player extends Component{
                     )}
                     <div className="player-action">
                         <button onClick={this.handlePlayClick}>Play Cards</button>
-                        <button>Pass Turn</button>
+                        <button onClick={this.handlePassTurnClick}>Pass Turn</button>
                     </div>
                 </div>    
                 )

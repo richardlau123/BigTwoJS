@@ -7,7 +7,7 @@ class Opponent extends Component{
         console.log(cards)
         return(
         <div className="opponent-container">
-            {cards.map((card, i) => <Card key={i} card={card} user="opponent"/>
+            {cards.map((card, i) => <Card key={i} card={card} user="player"/>
             )}
         </div>    
         )

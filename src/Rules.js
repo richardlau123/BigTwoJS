@@ -152,7 +152,7 @@ function getFiveCardRanking(cards){
 
 export function setUserCards(deck){
     let userCards = []
-    for(let i=0;i < 25;i++){
+    for(let i=0;i < 13;i++){
         userCards.push(deck.pop())
     }
     return userCards
@@ -194,7 +194,7 @@ function getCardValues(cards){
     return values
 }
 
-function sortCards(cards) {
+export function sortCards(cards) {
     cards.sort((a,b)=> {
         return a.value - b.value
     })

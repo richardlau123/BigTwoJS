@@ -58,6 +58,15 @@
   align-items: center;
 }
 
+.playingfield-container{
+  background-color:#1667e063;
+  width: 1000px;
+  height: 400px;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .opponent-container {
   background-color:#12c247;
   height: 300px;
