@@ -20,7 +20,7 @@ class Card extends Component{
         let image = this.props.card.imagePath
         if(this.props.user === "player") {
             let cardClass = (this.props.selected) ? "selectedcard" : "card"
-            console.log(cardClass)
+           // console.log(cardClass)
             return(
                 <React.Fragment>
                     <div>

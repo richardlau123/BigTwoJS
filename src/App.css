@@ -52,7 +52,7 @@
 .player-container {
   background-color:#c21212;
   height: 300px;
-  width: 800px;
+  width: 1200px;
   display: flex;
   align-self: center;
   align-items: center;
@@ -85,7 +85,7 @@
 .selectedcard{
   width: 90px;
   height: 140px;
-  margin-right:-60px;
+  margin-right:-55px;
   margin-bottom: 30px;
   border: solid 2px white;
   border-radius: 10px;

@@ -21,9 +21,7 @@ export function newDeck(){
     return shuffle(deck)
 }
 
-export function getSuitValue(suit){
-    return (suit === "D") ? 1 : (suit === "C") ? 2 : (suit === "H") ? 3 : 4
-}
+
 
 export function isValidPlay(cards){
     if(cards == null) return false 
@@ -42,12 +40,13 @@ function isValidFiveCardPlay(cards){
     console.log(isStraight(cards))
     console.log("is flush?", isFlush(cards))
     console.log("is fullhouse?", isFullHouse(cards))
+    console.log("is 4kind?", isFourOfAKind(cards))
 
     return isStraight(cards) || isFlush(cards) || isFullHouse(cards) || isFourOfAKind(cards)
 }
 
 function isStraight(cards){
-    let values = getCardValues(cards)
+    let values = getCardValueArray(cards)
 
     // Ace straight
     if(values.includes(14)){
@@ -71,52 +70,61 @@ function isFlush(cards){
 }
 
 function isFullHouse(cards){
-    let values = getCardValues(cards)
+    let values = getCardValueArray(cards)
     console.log(values)
     return values[0] === values[1] && values[3] === values[4] && (values[2] === values[1] || values[2] === values[3])
 }
 
 function isFourOfAKind(cards){
-    let values = getCardValues(cards)
-    return (values[0] === values[1] === values[2] === values[3]) || (values[4] === values[1] === values[2] === values[3])
+    let values = getCardValueArray(cards)
+    console.log(values)
+    return (values[0] === values[1] && values[0] === values[2] && values[0] === values[3]) || (values[4] === values[1] && values[4] === values[2] && values[4] === values[3])
 }
 
 export function isStrongerPlay(lastTurn, cards){
     if(lastTurn.length !== cards.length) return false
-
-    if(cards.length <=2) {
-        return isStrongerPairing(lastTurn, cards)
-    } else {
-        let lastRank = getFiveCardRanking(lastTurn)
-        let currRank = getFiveCardRanking(cards)
-        if(lastRank < currRank) {
-            return true
-        } else if(lastRank === currRank){
-            return isStrongerFiveCardPlay(lastTurn, cards)
-        } 
-    }
-    return false
-}
-
-function isStrongerPairing(lastTurn,cards){
-    let lastCard = lastTurn[lastTurn.length-1]
-    let lastValue = lastCard.value + getSuitValue(lastCard.suit) 
-    let currCard = cards[cards.length-1]
-    let currValue = currCard.value + getSuitValue(currCard.suit) 
     
-    return (currValue > lastValue)
+    switch(cards.length){
+        case 1:
+            return isStrongerSingle(lastTurn, cards)
+        case 2:
+            return isStrongerPairing(lastTurn, cards)
+        case 5:
+            let lastRank = getFiveCardRanking(lastTurn)
+            let currRank = getFiveCardRanking(cards)
+            if(lastRank < currRank) {
+                return true
+            } else if(lastRank === currRank){
+                return isStrongerFiveCardPlay(lastTurn, cards)
+            } 
+        break;
+        default:
+        return false
+    }
+    
 }
 
-function isStrongerFiveCardPlay(lastTurn, cards){
+export function isStrongerSingle(lastTurn, cards){
+    return getTotalCardValue(cards) > getTotalCardValue(lastTurn)
+}
+
+export function isStrongerPairing(lastTurn,cards){
+    let lastCard = lastTurn[lastTurn.length-1]
+    let currCard = cards[cards.length-1]
+    
+    return (getTotalCardValue(currCard) > getTotalCardValue(lastCard))
+}
+
+export function isStrongerFiveCardPlay(lastTurn, cards){
     sortCards(lastTurn)
     sortCards(cards)
     let ranking = getFiveCardRanking(cards)
     return (ranking === 1) ? isStrongerStraight(lastTurn, cards) : (ranking === 2) ? isStrongerFlush(lastTurn,cards) : (ranking === 3) ? isStrongerFullHouse(lastTurn, cards) : isStrongerFourOfAKind(lastTurn, cards) 
 }
 
-function isStrongerStraight(lastTurn, cards){
-    let lastVals = getCardValues(lastTurn)
-    let currVals = getCardValues(cards)
+export function isStrongerStraight(lastTurn, cards){
+    let lastVals = getCardValueArray(lastTurn)
+    let currVals = getCardValueArray(cards)
     if(lastVals.includes(15) && !currVals.includes(15)){
         return true
     } else {
@@ -124,7 +132,7 @@ function isStrongerStraight(lastTurn, cards){
     }
 }
 
-function isStrongerFlush(lastTurn,cards){
+export function isStrongerFlush(lastTurn,cards){
     let lastSuit = getSuitValue(lastTurn[0].suit) 
     let currSuit = getSuitValue(cards[0].suit)
     
@@ -135,15 +143,15 @@ function isStrongerFlush(lastTurn,cards){
     }
 }
 
-function isStrongerFullHouse(lastTurn, cards){
+export function isStrongerFullHouse(lastTurn, cards){
     return lastTurn[2].value < cards[2].value
 }
 
-function isStrongerFourOfAKind(lastTurn,cards) {
+export function isStrongerFourOfAKind(lastTurn,cards) {
     return lastTurn[2].value < cards[2].value
 }
 
-function getFiveCardRanking(cards){
+export function getFiveCardRanking(cards){
     if(isValidFiveCardPlay(cards)){
         return (isStraight(cards) && isFlush(cards)) ? 5 : isStraight(cards) ? 1 : isFlush(cards) ? 2 : isFullHouse(cards) ? 3 : 4
     }
@@ -152,7 +160,7 @@ function getFiveCardRanking(cards){
 
 export function setUserCards(deck){
     let userCards = []
-    for(let i=0;i < 13;i++){
+    for(let i=0;i < 25;i++){
         userCards.push(deck.pop())
     }
     return userCards
@@ -186,12 +194,21 @@ export function setFirstTurn(playerCards, opponentCards){
     return playerTurn
 }
 
-function getCardValues(cards){
+function getCardValueArray(cards){
     let values = []
     cards.forEach((card) => {
         values.push(card.value)
     })
     return values
+}
+
+export function getSuitValue(suit){
+    return (suit === "D") ? 1 : (suit === "C") ? 2 : (suit === "H") ? 3 : 4
+}
+
+function getTotalCardValue(card){
+    console.log(card.value*10 + getSuitValue(card.suit))
+    return card.value + getSuitValue(card.suit)
 }
 
 export function sortCards(cards) {

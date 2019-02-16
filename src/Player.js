@@ -10,6 +10,7 @@ class Player extends Component{
         }
         this.selectCard = this.selectCard.bind(this)
         this.handlePlayClick = this.handlePlayClick.bind(this)
+        this.handlePassTurnClick = this.handlePassTurnClick.bind(this)
     }
 
     selectCard(card){
@@ -22,7 +23,7 @@ class Player extends Component{
         this.setState({
             selectedCards : newSelectedCards
         })
-        console.log(this.state.selectedCards)
+        //console.log(this.state.selectedCards)
     }
 
     handlePlayClick(e){
@@ -39,8 +40,8 @@ class Player extends Component{
 
     render(){
         const cards = this.props.cards;
-        // console.log(cards)
-        if(cards){
+        //console.log(cards)
+        // if(cards){
             return(
                 <div className="player-container">
                     {cards.map((card, i) => {
@@ -54,7 +55,7 @@ class Player extends Component{
                     </div>
                 </div>    
                 )
-        }
+                // }
         
     }
 }

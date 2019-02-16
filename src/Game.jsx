@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import Player from './Player.js'
-import Opponent from './Opponent.js'
+import Opponent from './Opponent.jsx'
 import PlayingField from './PlayingField.jsx'
 import './Screen.css'
 import * as Rules from './Rules.js'
-import { throws } from 'assert';
+import * as Computer from './Computer.js'
 
 class Game extends Component{
     constructor(props){
@@ -18,6 +18,9 @@ class Game extends Component{
             freeMove: true,
         }
         this.playCards = this.playCards.bind(this)
+        this.passTurn = this.passTurn.bind(this)
+        this.AIplayCards = this.AIplayCards.bind(this)
+
     }
 
     componentWillMount(){
@@ -59,9 +62,38 @@ class Game extends Component{
                 cardsPlayed: cardsPlayed,
                 lastMove: cards
             })
+
+
             return true
         } else {
             console.log("NOPE SON")
+        }
+    }
+
+    AIplayCards(){
+        let cards = Computer.AIselectSingleCard(this.state.opponentCards, this.state.lastMove)
+        if(cards){
+            let opponentCards = this.state.opponentCards
+            let cardsPlayed = this.state.cardsPlayed
+
+            cards.forEach((card)=> {
+                opponentCards.splice(opponentCards.indexOf(card), 1)
+                cardsPlayed.push(card)
+            })
+
+            this.setState({
+                opponentCards: opponentCards,
+                cardsPlayed: cardsPlayed,
+                lastMove: cards
+            })
+        }
+        return
+        let validTurn = Computer.AIplayCards(this.state.opponentCards, this.state.lastMove)
+
+        if(validTurn){
+            //Set new state (look at playCards method)
+        } else {
+            // computer pass turn
         }
     }
 
@@ -69,6 +101,7 @@ class Game extends Component{
         this.setState({
             playerTurn: true
         })
+        this.AIplayCards()
     }
 
     render(){
