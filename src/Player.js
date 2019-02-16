@@ -15,6 +15,7 @@ class Player extends Component{
 
     selectCard(card){
         let newSelectedCards = this.state.selectedCards
+        
         if(newSelectedCards.includes(card) ) {
             newSelectedCards.splice(newSelectedCards.indexOf(card), 1)
         } else {

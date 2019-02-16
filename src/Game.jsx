@@ -71,7 +71,8 @@ class Game extends Component{
     }
 
     AIplayCards(){
-        let cards = Computer.AIselectSingleCard(this.state.opponentCards, this.state.lastMove)
+        let cards = Computer.AIplayCards(this.state.opponentCards, this.state.lastMove)
+        
         if(cards){
             let opponentCards = this.state.opponentCards
             let cardsPlayed = this.state.cardsPlayed
@@ -86,15 +87,14 @@ class Game extends Component{
                 cardsPlayed: cardsPlayed,
                 lastMove: cards
             })
+        } else {
+            this.setState({
+                playerTurn: true,
+                freeMove: true
+            })
         }
         return
-        let validTurn = Computer.AIplayCards(this.state.opponentCards, this.state.lastMove)
-
-        if(validTurn){
-            //Set new state (look at playCards method)
-        } else {
-            // computer pass turn
-        }
+        
     }
 
     passTurn(){
