@@ -1,8 +1,8 @@
 import * as Rules from './Rules.js'
 
 export function AIplayCards(cards, lastMove){
-    Rules.sortCards(cards)
-    Rules.sortCards(lastMove)
+    Rules.sortCardsValue(cards)
+    Rules.sortCardsValue(lastMove)
     let selectedCards
 
     switch(lastMove.length) {
@@ -106,15 +106,15 @@ function getAllPairs(cards){
     return pairs 
 }
 
-var testingcards = [
-    {type: "7", suit: "H", value: 7},
-    {type: "7", suit: "D", value: 7},
-    {type: "7", suit: "S", value: 7},
-    {type: "7", suit: "C", value: 7},
-    {type: "Q", suit: "H", value: 12},
-    {type: "Q", suit: "D", value: 12},
-    {type: "6", suit: "H", value: 6},
-    {type: "5", suit: "H", value: 5},
-    {type: "4", suit: "H", value: 4},
-    {type: "8", suit: "H", value: 8},
-]
+// var testingcards = [
+//     {type: "7", suit: "H", value: 7},
+//     {type: "7", suit: "D", value: 7},
+//     {type: "7", suit: "S", value: 7},
+//     {type: "7", suit: "C", value: 7},
+//     {type: "Q", suit: "H", value: 12},
+//     {type: "Q", suit: "D", value: 12},
+//     {type: "6", suit: "H", value: 6},
+//     {type: "5", suit: "H", value: 5},
+//     {type: "4", suit: "H", value: 4},
+//     {type: "8", suit: "H", value: 8},
+// ]

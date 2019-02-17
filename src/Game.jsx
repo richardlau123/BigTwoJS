@@ -11,8 +11,10 @@ class Game extends Component{
         super(props)
         this.state = {
             playerCards: [],
-            opponentCards: [],
-            playerTurn: null,
+            opponentLeftCards: [],
+            opponentTopCards: [],
+            opponentRightCards: [],
+            turn: null,
             cardsPlayed: [],
             lastMove: [],
             freeMove: true,
@@ -20,6 +22,10 @@ class Game extends Component{
         this.playCards = this.playCards.bind(this)
         this.passTurn = this.passTurn.bind(this)
         this.AIplayCards = this.AIplayCards.bind(this)
+        this.updateTurn = this.updateTurn.bind(this)
+        this.getCardsforTurn = this.getCardsforTurn.bind(this)
+        this.numberSort = this.numberSort.bind(this)
+        this.suitSort = this.suitSort.bind(this)
 
     }
 
@@ -31,39 +37,26 @@ class Game extends Component{
         let deck = Rules.newDeck()
         
         let playerCards = await Rules.setUserCards(deck)
-        let opponentCards = await Rules.setUserCards(deck)
-        Rules.sortCards(opponentCards)
-        let playerTurn = Rules.setFirstTurn(playerCards, opponentCards)
-        // console.log(playerCards)
-        // console.log(opponentCards)
-        // console.log(playerTurn)
+        let opponentLeftCards = await Rules.setUserCards(deck)
+        let opponentTopCards = await Rules.setUserCards(deck)
+        let opponentRightCards = await Rules.setUserCards(deck)
+
+        let turn = Rules.setFirstTurn(playerCards, opponentLeftCards, opponentTopCards, opponentRightCards)
+        
         this.setState({
             playerCards: playerCards,
-            opponentCards: opponentCards,
-            playerTurn: playerTurn,
+            opponentLeftCards: opponentLeftCards,
+            opponentTopCards: opponentTopCards,
+            opponentRightCards: opponentRightCards,
+            turn: turn,
         })
     }
 
     playCards(cards){
-        // console.log(Rules.isValidPlay(cards))
         let validPlay = Rules.isValidPlay(cards)
 
         if((this.state.freeMove && validPlay) || (validPlay && Rules.isStrongerPlay(this.state.lastMove, cards))){
-            let playerCards = this.state.playerCards
-            let cardsPlayed = this.state.cardsPlayed
-
-            cards.forEach((card)=> {
-                playerCards.splice(playerCards.indexOf(card), 1)
-                cardsPlayed.push(card)
-            })
-
-            this.setState({
-                playerCards: playerCards,
-                cardsPlayed: cardsPlayed,
-                lastMove: cards
-            })
-
-
+            this.updateTurn(cards)
             return true
         } else {
             console.log("NOPE SON")
@@ -71,45 +64,87 @@ class Game extends Component{
     }
 
     AIplayCards(){
-        let cards = Computer.AIplayCards(this.state.opponentCards, this.state.lastMove)
+        let currentPlayerCards = this.getCardsforTurn(this.turn)
+        let playableCards = Computer.AIplayCards(currentPlayerCards, this.state.lastMove)
         
+        this.updateTurn(playableCards)
+        
+    }
+
+    getCardsforTurn(turn){
+        if(turn === "opponentLeft") return this.state.opponentLeftCards 
+        if(turn === "opponentTop") return this.state.opponentTopCards 
+        if(turn === "opponentRight") return this.state.opponentRightCards
+        if(turn === "player") return this.state.playerCards
+    }
+
+    updateTurn(cards){
         if(cards){
-            let opponentCards = this.state.opponentCards
             let cardsPlayed = this.state.cardsPlayed
+            let currentPlayerCards = this.getCardsforTurn(this.turn)
 
             cards.forEach((card)=> {
-                opponentCards.splice(opponentCards.indexOf(card), 1)
+                currentPlayerCards.splice(currentPlayerCards.indexOf(card), 1)
                 cardsPlayed.push(card)
             })
+            
+            if(this.turn === "opponentLeft") this.setState({opponentLeftCards: currentPlayerCards})
+            if(this.turn === "opponentTop") this.setState({opponentTopCards: currentPlayerCards})
+            if(this.turn === "opponentRight") this.setState({opponentRightCards: currentPlayerCards})
+            if(this.turn === "player") this.setState({playerCards: currentPlayerCards})
 
             this.setState({
-                opponentCards: opponentCards,
                 cardsPlayed: cardsPlayed,
-                lastMove: cards
+                lastMove: cards,
+                freeMove: false,
             })
         } else {
-            this.setState({
-                playerTurn: true,
-                freeMove: true
-            })
-        }
-        return
-        
+            this.setState({freeMove: true})
+        } 
     }
 
     passTurn(){
         this.setState({
-            playerTurn: true
+            turn: true
         })
         this.AIplayCards()
+    }
+
+    numberSort(){
+        let cards = this.state.playerCards
+        Rules.sortCardsValue(cards)
+        console.log(cards)
+        this.setState({playerCards: cards})
+    }
+
+    suitSort(){
+        let cards = this.state.playerCards
+        Rules.sortCardsSuit(cards)
+        console.log(cards)
+        this.setState({playerCards: cards})
     }
 
     render(){
         return(
         <div className="game-container">
-            <Opponent cards={this.state.opponentCards} ></Opponent>
-            <PlayingField lastMove={this.state.lastMove} cards={this.state.cardsPlayed}/>
-            <Player cards={this.state.playerCards} playCards={this.playCards} passTurn={this.passTurn} playerTurn={this.state.playerTurn}></Player>
+            <div className="game-left">
+                <Opponent class="opponent-container-left" cardClass="computer-side" cards={this.state.opponentLeftCards} ></Opponent>
+            </div>
+            <div className="game-middle">
+                <Opponent class="opponent-container-top" cardClass="computer-top" cards={this.state.opponentTopCards} ></Opponent>
+                <PlayingField lastMove={this.state.lastMove} cards={this.state.cardsPlayed}/>
+                <Player 
+                    cards={this.state.playerCards} 
+                    playCards={this.playCards} 
+                    passTurn={this.passTurn} 
+                    turn={this.state.turn}
+                    numberSort={this.numberSort}
+                    suitSort={this.suitSort}>
+                </Player>
+            </div>
+            <div className="game-right">
+                <Opponent class="opponent-container-right" cardClass="computer-side" cards={this.state.opponentRightCards} ></Opponent>
+            </div>
         </div>
         )
     }

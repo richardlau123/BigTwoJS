@@ -25,7 +25,7 @@ export function newDeck(){
 
 export function isValidPlay(cards){
     if(cards == null) return false 
-    sortCards(cards)
+    sortCardsValue(cards)
     console.log(cards)
     
     return isValidCardPairing(cards) || isValidFiveCardPlay(cards)
@@ -116,8 +116,8 @@ export function isStrongerPair(lastTurn,cards){
 }
 
 export function isStrongerFiveCardPlay(lastTurn, cards){
-    sortCards(lastTurn)
-    sortCards(cards)
+    sortCardsValue(lastTurn)
+    sortCardsValue(cards)
     let ranking = getFiveCardRanking(cards)
     return (ranking === 1) ? isStrongerStraight(lastTurn, cards) : (ranking === 2) ? isStrongerFlush(lastTurn,cards) : (ranking === 3) ? isStrongerFullHouse(lastTurn, cards) : isStrongerFourOfAKind(lastTurn, cards) 
 }
@@ -166,32 +166,22 @@ export function setUserCards(deck){
     return userCards
 }
 
-export function setFirstTurn(playerCards, opponentCards){
-    let smallestCard = {
-        value: 15, suit: 4
-    }
-    let playerTurn
-
+export function setFirstTurn(playerCards, opponentLeftCards, opponentTopCards, opponentRightCards){
     playerCards.forEach((card) => {
-        let suitValue = getSuitValue(card.suit)
-        if((card.value <= smallestCard.value) && (suitValue <= smallestCard.suit)){
-            smallestCard = {
-                value: card.value, suit: suitValue
-            }
-            playerTurn = true
-        } 
+        if(card.suit === "D" && card.value === 3) return "player"
     })
 
-    opponentCards.forEach((card) => {
-        let suitValue = getSuitValue(card.suit)
-        if((card.value <= smallestCard.value) && (suitValue <= smallestCard.suit)){
-            smallestCard = {
-                value: card.value, suit: suitValue
-            }
-            playerTurn = false
-        } 
+    opponentLeftCards.forEach((card) => {
+        if(card.suit === "D" && card.value === 3) return "opponentLeft"
     })
-    return playerTurn
+    
+    opponentTopCards.forEach((card) => {
+        if(card.suit === "D" && card.value === 3) return "opponentTop"
+    })
+
+    opponentRightCards.forEach((card) => {
+        if(card.suit === "D" && card.value === 3) return "opponentRight"
+    })
 }
 
 function getCardValueArray(cards){
@@ -207,13 +197,22 @@ export function getSuitValue(suit){
 }
 
 function getTotalCardValue(card){
-    
     return card.value*10 + getSuitValue(card.suit)
 }
 
-export function sortCards(cards) {
+export function sortCardsValue(cards) {
+    if(cards == null) return
+
     cards.sort((a,b)=> {
         return a.value - b.value
+    })
+}
+
+export function sortCardsSuit(cards){
+    if(cards == null) return
+
+    cards.sort((a,b) => {
+        return getSuitValue(a.suit) - getSuitValue(b.suit)
     })
 }
 

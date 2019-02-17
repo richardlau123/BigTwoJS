@@ -25,20 +25,37 @@
 
 .screen-container {
   background-color: #ffffff;
-  height: 800px;
-  width: 1200px;
+  height: 75vh;
+  width: 75vw;
   display: flex;
   justify-content: center;
 }
 
 .game-container {
   background-color: #ffffff;
-  height: 800px;
-  width: 1200px;
+  height: 75vh;
+  width: 75vw;
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.game-left {
+  height: 100%;
+  width: 15vw;
+}
+
+.game-middle {
+  height: 100%;
+  width: 45vw;
+  display: flex;
   flex-direction: column;
+  justify-content: space-between;
+}
+
+.game-right {
+  height: 100%;
+  width: 15vw;
 }
 
 .player-action {
@@ -51,17 +68,22 @@
 
 .player-container {
   background-color:#c21212;
-  height: 300px;
-  width: 1200px;
+  height: 20vh;
+  width: 100%;
   display: flex;
   align-self: center;
   align-items: center;
 }
 
+.card-container {
+  display: flex;
+
+}
+
 .playingfield-container{
   background-color:#1667e063;
-  width: 1000px;
-  height: 400px;
+  height: 20vh;
+  width: 100%;
   display:flex;
   justify-content: center;
   align-items: center;
@@ -69,14 +91,47 @@
 
 .opponent-container {
   background-color:#12c247;
-  height: 300px;
-  width: 800px;
+  height: 20vh;
+  width: 100%;
   display: flex;
   align-self: center;
+  justify-content: center;
   align-items: center;
 }
 
+.opponent-container-left {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  
+}
+
+.opponent-container-right {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
 .card{
+  width: 90px;
+  height: 140px;
+  margin-right:-60px;
+}
+
+.side-card{
+
+}
+
+.computer-side{
+  width: 75px;
+  height: 115px;
+  margin-bottom: -100px;
+  transform: rotate(90deg) translateY(-1vh)
+}
+
+.computer-top{
   width: 90px;
   height: 140px;
   margin-right:-60px;
@@ -94,6 +149,14 @@
 
 .card:hover{
     margin-bottom: 20px
+}
+
+@media (max-width: 1200px){
+  .card{
+    width: 75px;
+    height: 115px;
+    margin-right:-50px;
+  }
 }
 
 @keyframes App-logo-spin {

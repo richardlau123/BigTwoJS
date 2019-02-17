@@ -23,16 +23,17 @@ class Card extends Component{
            // console.log(cardClass)
             return(
                 <React.Fragment>
-                    <div>
+                    {/* <div> */}
                     <img onClick={this.handleClick} alt="card" className={cardClass} src={imageDir[image]}></img>
-                    </div>
+                    {/* </div> */}
                 </React.Fragment>
             )
         } else if(this.props.user === "opponent"){
             return(
                 <React.Fragment>
                     <div>
-                    <img onClick={this.handleClick} alt="card" className="card" src={imageDir["red_back.png"]}></img>
+                    {/* <img onClick={this.handleClick} alt="card" className="card" src={imageDir["red_back.png"]}></img> */}
+                    <img onClick={this.handleClick} alt="card" className={this.props.class} src={imageDir[image]}></img>
                     </div>
                 </React.Fragment>
             )
