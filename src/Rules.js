@@ -21,7 +21,19 @@ export function newDeck(){
     return shuffle(deck)
 }
 
+export function isValidStartingPlay(cards){
+    let containsThreeOfDiamonds
 
+    cards.forEach((card) => {
+        if(card.suit === "D" && card.value === 3) containsThreeOfDiamonds = true
+    })
+
+    if(containsThreeOfDiamonds){
+        return isValidPlay(cards)
+    } else {
+        return false
+    }
+}
 
 export function isValidPlay(cards){
     if(cards == null) return false 
@@ -104,8 +116,8 @@ export function isStrongerPlay(lastTurn, cards){
     
 }
 
-export function isStrongerSingle(lastTurn, cards){
-    return getTotalCardValue(cards) > getTotalCardValue(lastTurn)
+export function isStrongerSingle(lastTurn, card){
+    return getTotalCardValue(card) > getTotalCardValue(lastTurn)
 }
 
 export function isStrongerPair(lastTurn,cards){
@@ -167,21 +179,23 @@ export function setUserCards(deck){
 }
 
 export function setFirstTurn(playerCards, opponentLeftCards, opponentTopCards, opponentRightCards){
+    let turn 
     playerCards.forEach((card) => {
-        if(card.suit === "D" && card.value === 3) return "player"
+        if(card.suit === "D" && card.value === 3) turn = "player"
     })
 
     opponentLeftCards.forEach((card) => {
-        if(card.suit === "D" && card.value === 3) return "opponentLeft"
+        if(card.suit === "D" && card.value === 3) turn = "opponentLeft"
     })
     
     opponentTopCards.forEach((card) => {
-        if(card.suit === "D" && card.value === 3) return "opponentTop"
+        if(card.suit === "D" && card.value === 3) turn = "opponentTop"
     })
 
     opponentRightCards.forEach((card) => {
-        if(card.suit === "D" && card.value === 3) return "opponentRight"
+        if(card.suit === "D" && card.value === 3) turn = "opponentRight"
     })
+    return turn
 }
 
 function getCardValueArray(cards){
@@ -197,7 +211,11 @@ export function getSuitValue(suit){
 }
 
 function getTotalCardValue(card){
-    return card.value*10 + getSuitValue(card.suit)
+    if(card[0]) {
+        return card[0].value*10 + getSuitValue(card[0].suit)
+    } else {
+        return card.value*10 + getSuitValue(card.suit) 
+    }
 }
 
 export function sortCardsValue(cards) {

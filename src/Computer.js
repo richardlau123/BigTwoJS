@@ -20,13 +20,29 @@ export function AIplayCards(cards, lastMove){
     return selectedCards
 }
 
-export function AIplayFreeMove(cards){
+export function AIplayStartingTurn(cards){
+    for(let i=0;i<cards.length;i++){
+        if(cards[i].value === 3 && cards[i].suit === "D") return [cards[i]]
+    }
+}
 
+export function AIplayFreeMove(cards){
+    Rules.sortCardsValue(cards)
+    console.log(cards)
+    // debugger
+    let selectedCards = getAllFiveCardPlays(cards)
+    // debugger
+    if(selectedCards !== null && selectedCards.length !== 0) return selectedCards[0]
+
+    selectedCards = getAllPairs(cards)
+    if(selectedCards !== null && selectedCards.length !== 0) return selectedCards[0]
+
+    return [cards[0]]
 }
 
 export function AIselectSingleCard(cards, lastMove){
+
     
-    console.log(lastMove)
     for(let i=0;i<cards.length;i++){
         if(Rules.isStrongerSingle(lastMove[0], cards[i])){
             console.log(cards[i])
@@ -67,6 +83,8 @@ export function AIselectFiveCardPlay(cards, lastMove){
 }
 
 function getAllFiveCardPlays(cards){
+    if(cards.length < 5) return null
+
     let validSet = []
     
     function getAllFiveCardPlaysHelper(cards, subset, i){
