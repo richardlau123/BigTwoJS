@@ -30,15 +30,30 @@ class Player extends Component{
     }
 
     handlePlayClick(e){
-        if(this.props.playCards(this.state.selectedCards)) {
-            this.setState({
-                selectedCards: []
-            })
+        e.preventDefault()
+        if(this.props.playerTurn) {
+            if(this.props.playCards(this.state.selectedCards)) {
+                this.setState({
+                    selectedCards: []
+                })
+            }
+            document.getElementById("playbtn").disabled = true
+            setTimeout(()=> {
+                document.getElementById("playbtn").disabled = false
+            },1500)
         }
+        
     }
 
     handlePassTurnClick(e){
-        this.props.passTurn()
+        e.preventDefault()
+        if(this.props.playerTurn) {
+            this.props.passTurn()
+            document.getElementById("passbtn").disabled = true
+            setTimeout(()=> {
+                document.getElementById("passbtn").disabled = false
+            },1500)
+        }     
     }
 
     handleNumberSort(){
@@ -50,9 +65,8 @@ class Player extends Component{
     }
 
     render(){
+        let actionButton = this.props.playerTurn ? "" : "disabled-button" 
         let cards = this.props.cards;
-        //console.log(cards)
-        // if(cards){
             return(
                 <div className="player-container">
                         {cards && cards.map((card, i) => {
@@ -61,14 +75,13 @@ class Player extends Component{
                         }
                         )}
                     <div className="player-action">
-                        <button className="player-button" onClick={this.handlePlayClick}>Play Cards</button>
-                        <button className="player-button" onClick={this.handlePassTurnClick}>Pass Turn</button>
+                        <button id="playbtn" className={"player-button " + actionButton} onClick={this.handlePlayClick}>Play Cards</button>
+                        <button id="passbtn" className={"player-button " + actionButton} onClick={this.handlePassTurnClick}>Pass Turn</button>
                         <button className="player-button" onClick={this.handleNumberSort}>Sort by Type</button>
                         <button className="player-button" onClick={this.handleSuitSort}>Sort by Suit</button>
                     </div>
                 </div> 
                 )
-                // }
         
     }
 }

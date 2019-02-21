@@ -234,30 +234,35 @@ class Game extends Component{
     render(){
         return(
         <div className="game-container">
-            <div className="game-left">
-                <Opponent class="opponent-container-left" cardClass="computer-side" cards={this.state.opponentLeftCards} ></Opponent>
+            <div className="game-opponent">
+                <div className="game-left">
+                    <Opponent class="opponent-container-left" cardClass="computer-side" cards={this.state.opponentLeftCards} ></Opponent>
+                </div>
+                <div className="game-middle">
+                    <Opponent class="opponent-container-top" cardClass="computer-top" cards={this.state.opponentTopCards} ></Opponent>
+                    <PlayingField
+                        player={this.state.playerField}
+                        opponentRight={this.state.opponentRightField}
+                        opponentLeft={this.state.opponentLeftField}
+                        opponentTop={this.state.opponentTopField}
+                    >    
+                    </PlayingField>
+                </div>
+                <div className="game-right">
+                    <Opponent class="opponent-container-right" cardClass="computer-side" cards={this.state.opponentRightCards} ></Opponent>
+                </div>
             </div>
-            <div className="game-middle">
-                <Opponent class="opponent-container-top" cardClass="computer-top" cards={this.state.opponentTopCards} ></Opponent>
-                <PlayingField
-                    player={this.state.playerField}
-                    opponentRight={this.state.opponentRightField}
-                    opponentLeft={this.state.opponentLeftField}
-                    opponentTop={this.state.opponentTopField}
-                >    
-                </PlayingField>
+            {/* <div className="game-player"> */}
                 <Player 
-                    cards={this.state.playerCards} 
+                    cards={this.state.playerCards}
+                    playerTurn={(this.state.turn === "player")} 
                     playCards={this.playerPlayCards} 
                     passTurn={this.playerPassTurn} 
                     turn={this.state.turn}
                     numberSort={this.numberSort}
                     suitSort={this.suitSort}>
                 </Player>
-            </div>
-            <div className="game-right">
-                <Opponent class="opponent-container-right" cardClass="computer-side" cards={this.state.opponentRightCards} ></Opponent>
-            </div>
+            {/* </div> */}
         </div>
         )
     }
