@@ -30,6 +30,7 @@ class Game extends Component{
         this.numberSort = this.numberSort.bind(this)
         this.suitSort = this.suitSort.bind(this)
         this.isGameOver = this.isGameOver.bind(this)
+        this.displayPassTurn = this.displayPassTurn.bind(this)
     }
 
     componentWillMount(){
@@ -140,10 +141,18 @@ class Game extends Component{
                 freeMove: false,
             }, ()=>{this.updateNextTurn()})
         } else {
-            if(this.state.turn === "opponentLeft") this.setState({opponentLeftField: []})
-            if(this.state.turn === "opponentTop") this.setState({opponentTopField: []})
-            if(this.state.turn === "opponentRight") this.setState({opponentRightField: []})
-            if(this.state.turn === "player") this.setState({playerField: []})
+            if(this.state.turn === "opponentLeft") this.setState({opponentLeftField: []}, ()=>{
+                this.displayPassTurn()
+            })
+            if(this.state.turn === "opponentTop") this.setState({opponentTopField: []}, ()=>{
+                this.displayPassTurn()
+            })
+            if(this.state.turn === "opponentRight") this.setState({opponentRightField: []}, ()=>{
+                this.displayPassTurn()
+            })
+            if(this.state.turn === "player") this.setState({playerField: []}, ()=>{
+                this.displayPassTurn()
+            })
             
             this.updateNextTurn()
         }
@@ -176,13 +185,14 @@ class Game extends Component{
                 this.setState({turn: "opponentLeft"}, ()=>{this.AIplayCards()})
             } else 
                 this.setState({turn: "player"})
-        }, 0)
+        }, 1500)
             
 
     }
 
     playerPassTurn(){
         this.setState({playerField: []})
+        this.displayPassTurn()
         this.updateNextTurn()
     }
 
@@ -194,8 +204,6 @@ class Game extends Component{
     }
 
     suitSort(){
-        console.log("last player move:", this.state.lastMovePlayer)
-        console.log("this turn is:" ,this.state.turn)
         let cards = this.state.playerCards
         Rules.sortCardsSuit(cards)
 
@@ -208,6 +216,19 @@ class Game extends Component{
             this.setState({gameOver: true})
             return true
         }
+    }
+
+    displayPassTurn(){
+        let node = document.createElement("div")
+        let nodetext = document.createTextNode("Pass Turn")
+        node.append(nodetext)
+        node.setAttribute("class", "tracking-in-expand-fwd")
+
+        let field = this.state.turn
+        document.getElementById(field).append(node)
+        setTimeout(()=> {
+            document.getElementById(field).removeChild(node)
+        }, 1200) 
     }
 
     render(){
