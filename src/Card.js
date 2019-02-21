@@ -19,12 +19,12 @@ class Card extends Component{
     render(){
         let image = this.props.card.imagePath
         if(this.props.user === "player") {
-            let cardClass = (this.props.selected) ? "selectedcard" : "card"
+            let cardClass = (this.props.selected) ? "selectedcard" : ""
            // console.log(cardClass)
             return(
                 <React.Fragment>
                     {/* <div> */}
-                    <img onClick={this.handleClick} alt="card" className={cardClass} src={imageDir[image]}></img>
+                    <img onClick={this.handleClick} alt="card" className={"card " + cardClass} src={imageDir[image]}></img>
                     {/* </div> */}
                 </React.Fragment>
             )
@@ -32,19 +32,32 @@ class Card extends Component{
             return(
                 <React.Fragment>
                     <div>
-                    {/* <img onClick={this.handleClick} alt="card" className="card" src={imageDir["red_back.png"]}></img> */}
-                    <img onClick={this.handleClick} alt="card" className={this.props.class} src={imageDir[image]}></img>
+                    <img onClick={this.handleClick} alt="card" className={this.props.class}  src={imageDir["red_back.png"]}></img>
+                    {/* <img onClick={this.handleClick} alt="card" className={this.props.class} src={imageDir[image]}></img> */}
                     </div>
                 </React.Fragment>
             )
         } else {
-            return(
-                <React.Fragment>
-                    <div>
-                    <img onClick={this.handleClick} alt="card" className="card" src={imageDir[image]}></img>
-                    </div>
-                </React.Fragment>
-            )
+            if(this.props.class === "lastmove-card") {
+                return(
+                    <React.Fragment>
+                        {/* <div> */}
+                        <img alt="card" className={this.props.class} src={imageDir[image]}></img>
+                        {/* </div> */}
+                    </React.Fragment>
+                )
+            } else {
+                return(
+                    <React.Fragment>
+                        {/* <div> */}
+                        <img alt="card" className={this.props.class + " flip-in-ver-left"} src={imageDir[image]}></img>
+
+                        {/* <img alt="card" className={this.props.class} src={imageDir["red_back.png"]}></img> */}
+                        {/* </div> */}
+                    </React.Fragment>
+                )
+            }
+            
         }
 }}
 

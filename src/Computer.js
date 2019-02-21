@@ -29,9 +29,9 @@ export function AIplayStartingTurn(cards){
 export function AIplayFreeMove(cards){
     Rules.sortCardsValue(cards)
     console.log(cards)
-    // debugger
+    
     let selectedCards = getAllFiveCardPlays(cards)
-    // debugger
+
     if(selectedCards !== null && selectedCards.length !== 0) return selectedCards[0]
 
     selectedCards = getAllPairs(cards)

@@ -61,16 +61,12 @@ class Player extends Component{
                         }
                         )}
                     <div className="player-action">
-                        <div>
-                        <button onClick={this.handlePlayClick}>Play Cards</button>
-                        <button onClick={this.handleNumberSort}>Sort 1234</button>
-                        </div>
-                        <div>
-                        <button onClick={this.handlePassTurnClick}>Pass Turn</button>
-                        <button onClick={this.handleSuitSort}>Sort Suit</button>
-                        </div>
+                        <button className="player-button" onClick={this.handlePlayClick}>Play Cards</button>
+                        <button className="player-button" onClick={this.handlePassTurnClick}>Pass Turn</button>
+                        <button className="player-button" onClick={this.handleNumberSort}>Sort by Type</button>
+                        <button className="player-button" onClick={this.handleSuitSort}>Sort by Suit</button>
                     </div>
-                </div>    
+                </div> 
                 )
                 // }
         

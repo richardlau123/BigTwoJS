@@ -10,26 +10,26 @@ class Game extends Component{
     constructor(props){
         super(props)
         this.state = {
-            playerCards: [],
-            opponentLeftCards: [],
-            opponentTopCards: [],
-            opponentRightCards: [],
+            playerCards: [], opponentLeftCards: [], opponentTopCards: [], opponentRightCards: [],
+            playerField: [], opponentLeftField: [], opponentTopField: [], opponentRightField: [],
             startingTurn: true,
             turn: null,
             cardsPlayed: [],
             lastMove: [],
             lastMovePlayer: null,
             freeMove: true,
+            gameOver: false,
         }
         this.playerPlayCards = this.playerPlayCards.bind(this)
         this.playerPassTurn = this.playerPassTurn.bind(this)
         this.AIplayCards = this.AIplayCards.bind(this)
         this.updateNextTurn = this.updateNextTurn.bind(this)
+        this.updateField = this.updateField.bind(this)
         this.updateNextTurnCards = this.updateNextTurnCards.bind(this)
         this.getCardsforTurn = this.getCardsforTurn.bind(this)
         this.numberSort = this.numberSort.bind(this)
         this.suitSort = this.suitSort.bind(this)
-
+        this.isGameOver = this.isGameOver.bind(this)
     }
 
     componentWillMount(){
@@ -45,7 +45,7 @@ class Game extends Component{
         let opponentRightCards = await Rules.setUserCards(deck)
 
         let turn = Rules.setFirstTurn(playerCards, opponentLeftCards, opponentTopCards, opponentRightCards)
-        console.log("starting turn is:", turn)
+
         this.setState({
             playerCards: playerCards,
             opponentLeftCards: opponentLeftCards,
@@ -94,7 +94,7 @@ class Game extends Component{
             if(this.state.lastMovePlayer === this.state.turn) {
                 playableCards = Computer.AIplayFreeMove(currentPlayerCards)
                 console.log(playableCards)
-                debugger
+                
             } else {
                 playableCards = Computer.AIplayCards(currentPlayerCards, this.state.lastMove)
             }
@@ -119,14 +119,20 @@ class Game extends Component{
             console.log("update next cards:", cards)
             cards.forEach((card)=> {
                 currentPlayerCards.splice(currentPlayerCards.indexOf(card), 1)
-                cardsPlayed.push(card)
+                
             })
+            
+            if(this.state.lastMove){
+                this.state.lastMove.forEach((card)=> {cardsPlayed.push(card)})
+            }
             
             if(this.state.turn === "opponentLeft") this.setState({opponentLeftCards: currentPlayerCards})
             if(this.state.turn === "opponentTop") this.setState({opponentTopCards: currentPlayerCards})
             if(this.state.turn === "opponentRight") this.setState({opponentRightCards: currentPlayerCards})
             if(this.state.turn === "player") this.setState({playerCards: currentPlayerCards})
             
+            this.updateField(cards)
+
             this.setState({
                 cardsPlayed: cardsPlayed,
                 lastMove: cards,
@@ -134,39 +140,56 @@ class Game extends Component{
                 freeMove: false,
             }, ()=>{this.updateNextTurn()})
         } else {
+            if(this.state.turn === "opponentLeft") this.setState({opponentLeftField: []})
+            if(this.state.turn === "opponentTop") this.setState({opponentTopField: []})
+            if(this.state.turn === "opponentRight") this.setState({opponentRightField: []})
+            if(this.state.turn === "player") this.setState({playerField: []})
+            
             this.updateNextTurn()
         }
         
     }
 
+    updateField(cards){
+        if(this.state.turn === "opponentLeft") this.setState({opponentLeftField: []}, ()=>{
+            this.setState({opponentLeftField: cards})
+        })
+        if(this.state.turn === "opponentTop") this.setState({opponentTopField: []}, ()=>{
+            this.setState({opponentTopField: cards})
+        })
+        if(this.state.turn === "opponentRight") this.setState({opponentRightField: []}, ()=>{
+            this.setState({opponentRightField: cards})
+        })
+        if(this.state.turn === "player") this.setState({playerField: []}, ()=>{
+            this.setState({playerField: cards})
+        })
+    }
+
     updateNextTurn(){
-        
+        if(this.isGameOver()) return
+        setTimeout(()=> {
             if(this.state.turn === "player") {
                 this.setState({turn: "opponentRight"}, ()=>{this.AIplayCards()})
-            }
-            if(this.state.turn === "opponentRight") {
-                this.setState({turn: "opponentTop"}, ()=>{this.AIplayCards()})}
-    
-            if(this.state.turn === "opponentTop") {
-                this.setState({turn: "opponentLeft"}, ()=>{this.AIplayCards()})}
-    
-            if(this.state.turn === "opponentLeft") this.setState({turn: "player"})
-        
-        // debugger
+            } else if(this.state.turn === "opponentRight") {
+                this.setState({turn: "opponentTop"}, ()=>{this.AIplayCards()})
+            } else if(this.state.turn === "opponentTop") {
+                this.setState({turn: "opponentLeft"}, ()=>{this.AIplayCards()})
+            } else 
+                this.setState({turn: "player"})
+        }, 0)
+            
 
     }
 
     playerPassTurn(){
-        // this.setState({
-        //     freeMove: true
-        // })
+        this.setState({playerField: []})
         this.updateNextTurn()
     }
 
     numberSort(){
         let cards = this.state.playerCards
         Rules.sortCardsValue(cards)
-        console.log(cards)
+
         this.setState({playerCards: cards})
     }
 
@@ -179,6 +202,14 @@ class Game extends Component{
         this.setState({playerCards: cards})
     }
 
+    isGameOver(){
+        let currentPlayerCards = this.getCardsforTurn()
+        if(currentPlayerCards.length === 0){
+            this.setState({gameOver: true})
+            return true
+        }
+    }
+
     render(){
         return(
         <div className="game-container">
@@ -187,7 +218,13 @@ class Game extends Component{
             </div>
             <div className="game-middle">
                 <Opponent class="opponent-container-top" cardClass="computer-top" cards={this.state.opponentTopCards} ></Opponent>
-                <PlayingField lastMove={this.state.lastMove} cards={this.state.cardsPlayed}/>
+                <PlayingField
+                    player={this.state.playerField}
+                    opponentRight={this.state.opponentRightField}
+                    opponentLeft={this.state.opponentLeftField}
+                    opponentTop={this.state.opponentTopField}
+                >    
+                </PlayingField>
                 <Player 
                     cards={this.state.playerCards} 
                     playCards={this.playerPlayCards} 

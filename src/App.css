@@ -12,9 +12,6 @@
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
 }
@@ -25,15 +22,24 @@
 
 .screen-container {
   background-color: #ffffff;
-  height: 75vh;
+  height: 100vh;
   width: 75vw;
   display: flex;
   justify-content: center;
 }
 
 .game-container {
-  background-color: #ffffff;
-  height: 75vh;
+  background: #1B5E20;
+  /* background-color: #282c34; */
+  /* background: url(./res/images/background.png); */
+  /* background: #232526; 
+  background: -webkit-linear-gradient(to right, #414345, #232526);  
+  background: linear-gradient(to right, #414345, #232526);  */
+  /* background: #093028;  
+  background: -webkit-linear-gradient(to bottom, #237A57, #093028);  
+  background: linear-gradient(to bottom, #237A57, #093028); */
+  
+  height: 100vh;
   width: 75vw;
   display: flex;
   align-items: center;
@@ -59,20 +65,39 @@
 }
 
 .player-action {
-  width: 50%;
+  width: 40%;
+  height: 100%;
   display:flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center
+  justify-content: space-around;
 }
 
+.player-button{
+  cursor:pointer;
+  outline: none;
+  background-color: transparent;
+  border: 1.4px solid white;
+  padding: 7.5px;
+  color: white;
+  font-weight: 600;
+  border-radius: 1px;
+  transition: all 0.2s;
+}
+
+.player-button:hover{
+ color:#1B5E20;
+ background-color:#FFFFFF;
+ box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
 .player-container {
-  background-color:#c21212;
-  height: 20vh;
+  /* background-color:#c21212; */
+  height: 25vh;
   width: 100%;
   display: flex;
   align-self: center;
   align-items: center;
+  justify-content: space-between;
 }
 
 .card-container {
@@ -81,16 +106,55 @@
 }
 
 .playingfield-container{
-  background-color:#1667e063;
-  height: 20vh;
+  /* background-color:#1667e063; */
+  height: 75vh;
   width: 100%;
   display:flex;
-  justify-content: center;
+  flex-direction: column;
+}
+
+.playingfield-section{
+  display:flex;
   align-items: center;
+  width: 100%;
+  height: 33.3%;
+}
+
+.section-middle{
+  justify-content: space-evenly
+}
+
+.section-top{
+  justify-content: center
+}
+
+.left-field{
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  height: 100%;
+}
+
+.right-field{
+  display:flex;
+  width: 50%;
+  height: 100%;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.field-played-cards{
+
+}
+
+.field-lastmove{
+
 }
 
 .opponent-container {
-  background-color:#12c247;
+  /* background-color:#12c247; */
   height: 20vh;
   width: 100%;
   display: flex;
@@ -103,7 +167,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
+  height: 90%;
   
 }
 
@@ -111,44 +175,152 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
+  height: 90%;
 }
 
 .card{
+  cursor: pointer;
   width: 90px;
   height: 140px;
   margin-right:-60px;
+  /* box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); */
+  transition: all 0.5s cubic-bezier(.25,.8,.25,1);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .side-card{
 
 }
 
+.field-card{
+  width: 90px;
+  height: 140px;
+  /* position: absolute; */
+  margin-right:-60px;
+  filter: blur(0);
+  -webkit-filter: blur(0);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  /* animation-name: fadeIn;
+  animation-delay: 0s;
+  animation-duration: 0.5s; */
+  /* -webkit-backface-visibility: hidden;
+    -webkit-transform: translateZ(0) scale(1.0, 1.0); */
+
+}
+
+.lastmove-card{
+  width: 90px;
+  height: 140px;
+  margin-right:-60px;
+}
+
 .computer-side{
   width: 75px;
   height: 115px;
   margin-bottom: -100px;
-  transform: rotate(90deg) translateY(-1vh)
+  transform: rotate(90deg) translateY(-1vh);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .computer-top{
   width: 90px;
   height: 140px;
   margin-right:-60px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .selectedcard{
-  width: 90px;
-  height: 140px;
-  margin-right:-55px;
-  margin-bottom: 30px;
-  border: solid 2px white;
-  border-radius: 10px;
-
+  margin-bottom: 40px;
+  border-radius: 6px;
+  box-shadow: 0px 0px 5px #fff !important;
 }
 
 .card:hover{
-    margin-bottom: 20px
+    margin-bottom: 40px;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+.slit-in-vertical {
+	-webkit-animation: slit-in-vertical 0.45s ease-out both;
+	        animation: slit-in-vertical 0.45s ease-out both;
+}
+
+.flip-in-ver-left {
+	-webkit-animation: flip-in-ver-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: flip-in-ver-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+@-webkit-keyframes flip-in-ver-left {
+  0% {
+    -webkit-transform: rotateY(80deg);
+            transform: rotateY(80deg);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: rotateY(0);
+            transform: rotateY(0);
+    opacity: 1;
+  }
+}
+@keyframes flip-in-ver-left {
+  0% {
+    -webkit-transform: rotateY(80deg);
+            transform: rotateY(80deg);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: rotateY(0);
+            transform: rotateY(0);
+    opacity: 1;
+  }
+}
+
+
+@-webkit-keyframes slit-in-vertical {
+  0% {
+    -webkit-transform: translateZ(-800px) rotateY(90deg);
+            transform: translateZ(-800px) rotateY(90deg);
+    opacity: 0;
+  }
+  54% {
+    -webkit-transform: translateZ(-160px) rotateY(87deg);
+            transform: translateZ(-160px) rotateY(87deg);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: translateZ(0) rotateY(0);
+            transform: translateZ(0) rotateY(0);
+  }
+}
+@keyframes slit-in-vertical {
+  0% {
+    -webkit-transform: translateZ(-800px) rotateY(90deg);
+            transform: translateZ(-800px) rotateY(90deg);
+    opacity: 0;
+  }
+  54% {
+    -webkit-transform: translateZ(-160px) rotateY(87deg);
+            transform: translateZ(-160px) rotateY(87deg);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: translateZ(0) rotateY(0);
+            transform: translateZ(0) rotateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  25% {
+    opacity: 1
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 
 @media (max-width: 1200px){
