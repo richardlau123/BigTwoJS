@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import Card from './Card.js'
+import Card from './Card.jsx'
 
 class Player extends Component{
     constructor(props){
@@ -81,7 +81,7 @@ class Player extends Component{
         } else {
             playerAction = <div className="player-action">
                             <div>Game Over!</div>
-                            <button id="resetbtn" disabled={false} className="player-button" onClick={this.handleReset}>Play Again?</button>
+                            <button id="resetbtn" disabled={false} className="player-button" onClick={this.handleReset}>Play Again</button>
                             </div> 
         }
         let cards = this.props.cards;

@@ -16,9 +16,8 @@
 .screen-container {
   background-color: #ffffff;
   height: 100vh;
-  width: 75vw;
+  width: 100vw;
   display: flex;
-  justify-content: center;
 }
 
 .game-container {
@@ -29,6 +28,25 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+}
+
+.rules-container{
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 25vw;
+  background-color: #788ca5;
+}
+
+.rules-text{
+  font-size: calc(3px + 1vmin);
+  padding: 5px;
+  font-weight: 500;
+}
+
+.suitImg{
+  width:5%;
+  max-width:13px;
 }
 
 .game-opponent{
@@ -87,6 +105,7 @@
   min-width:40%;
   max-height: 20%;
   font-size: 1vw;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   transition: all 0.2s;
 }
 
@@ -106,6 +125,7 @@
   align-self: center;
   align-items: center;
   justify-content: space-between;
+  padding-bottom:1vh;
 }
 
 .card-container {
@@ -196,7 +216,6 @@
   height: 140px;
   max-height: 95%;
   margin-right:-60px;
-  /* box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); */
   transition: all 0.5s cubic-bezier(.25,.8,.25,1);
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
@@ -204,17 +223,10 @@
 .field-card{
   width: 90px;
   height: 140px;
-  /* position: absolute; */
   margin-right:-60px;
   filter: blur(0);
   -webkit-filter: blur(0);
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  /* animation-name: fadeIn;
-  animation-delay: 0s;
-  animation-duration: 0.5s; */
-  /* -webkit-backface-visibility: hidden;
-    -webkit-transform: translateZ(0) scale(1.0, 1.0); */
-
 }
 
 .computer-side{
@@ -257,6 +269,13 @@
 	-webkit-animation: tracking-in-expand-fwd 1.3s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
           animation: tracking-in-expand-fwd 1.3s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
           text-shadow: -6px 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+.resetButton{
+  position: absolute;
+  right: 25.5vw;
+  top: 0.5vh;
+  cursor:pointer;
 }
 
 
@@ -383,7 +402,7 @@
   .field-card{
     width: 60px;
     height: 92px;
-    margin-right:-50px;
+    margin-right:-40px;
   }
   
   .computer-side{
@@ -409,7 +428,7 @@
   .field-card{
     width: 40px;
     height: 60px;
-    margin-bottom: -40px;
+    margin-right:-25px;
   }
 
   .computer-side{

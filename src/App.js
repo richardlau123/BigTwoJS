@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Screen from './Screen.js'
+import Screen from './Screen.jsx'
 import './App.css';
 
 class App extends Component {
