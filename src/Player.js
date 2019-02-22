@@ -13,6 +13,7 @@ class Player extends Component{
         this.handlePassTurnClick = this.handlePassTurnClick.bind(this)
         this.handleNumberSort = this.handleNumberSort.bind(this)
         this.handleSuitSort = this.handleSuitSort.bind(this)
+        this.handleReset = this.handleReset.bind(this)
     }
 
     selectCard(card){
@@ -39,7 +40,7 @@ class Player extends Component{
             }
             document.getElementById("playbtn").disabled = true
             setTimeout(()=> {
-                document.getElementById("playbtn").disabled = false
+                if(document.getElementById("playbtn")) document.getElementById("playbtn").disabled = false
             },1500)
         }
         
@@ -51,7 +52,7 @@ class Player extends Component{
             this.props.passTurn()
             document.getElementById("passbtn").disabled = true
             setTimeout(()=> {
-                document.getElementById("passbtn").disabled = false
+                if(document.getElementById("passbtn")) document.getElementById("passbtn").disabled = false
             },1500)
         }     
     }
@@ -64,8 +65,26 @@ class Player extends Component{
         this.props.suitSort()
     }
 
+    handleReset(){
+        this.props.resetGame()
+    }
+
     render(){
-        let actionButton = this.props.playerTurn ? "" : "disabled-button" 
+        let actionButton = this.props.playerTurn ? "" : "disabled-button"
+        let playerAction
+        if(!this.props.gameOver){
+            playerAction = <div className="player-action">
+                               <button id="playbtn" className={"player-button " + actionButton} onClick={this.handlePlayClick}>Play Cards</button>
+                               <button id="passbtn" className={"player-button " + actionButton} onClick={this.handlePassTurnClick}>Pass Turn</button>
+                               <button className="player-button" onClick={this.handleNumberSort}>Sort Type</button>
+                               <button className="player-button" onClick={this.handleSuitSort}>Sort Suit</button>
+                           </div>
+        } else {
+            playerAction = <div className="player-action">
+                            <div>Game Over!</div>
+                            <button id="resetbtn" disabled={false} className="player-button" onClick={this.handleReset}>Play Again?</button>
+                            </div> 
+        }
         let cards = this.props.cards;
             return(
                 <div className="player-container">
@@ -74,14 +93,9 @@ class Player extends Component{
                             return(<Card key={i} card={card} user="player" selectCard={this.selectCard} selected={selected}/>)
                         }
                         )}
-                    <div className="player-action">
-                        <button id="playbtn" className={"player-button " + actionButton} onClick={this.handlePlayClick}>Play Cards</button>
-                        <button id="passbtn" className={"player-button " + actionButton} onClick={this.handlePassTurnClick}>Pass Turn</button>
-                        <button className="player-button" onClick={this.handleNumberSort}>Sort by Type</button>
-                        <button className="player-button" onClick={this.handleSuitSort}>Sort by Suit</button>
-                    </div>
+                    {playerAction}    
                 </div> 
-                )
+            )
         
     }
 }

@@ -17,9 +17,10 @@ class Game extends Component{
             cardsPlayed: [],
             lastMove: [],
             lastMovePlayer: null,
-            freeMove: true,
+            freeMove: false,
             gameOver: false,
         }
+        this.resetGame = this.resetGame.bind(this)
         this.playerPlayCards = this.playerPlayCards.bind(this)
         this.playerPassTurn = this.playerPassTurn.bind(this)
         this.AIplayCards = this.AIplayCards.bind(this)
@@ -38,6 +39,7 @@ class Game extends Component{
     }
 
     async resetGame(){
+        console.log("in resetgame")
         let deck = Rules.newDeck()
         
         let playerCards = await Rules.setUserCards(deck)
@@ -48,12 +50,18 @@ class Game extends Component{
         let turn = Rules.setFirstTurn(playerCards, opponentLeftCards, opponentTopCards, opponentRightCards)
 
         this.setState({
+            playerField: [], opponentLeftField: [], opponentTopField: [], opponentRightField: [],
             playerCards: playerCards,
             opponentLeftCards: opponentLeftCards,
             opponentTopCards: opponentTopCards,
             opponentRightCards: opponentRightCards,
             turn: turn,
-            startingTurn: true
+            startingTurn: true,
+            cardsPlayed: [],
+            lastMove: [],
+            lastMovePlayer: null,
+            freeMove: false,
+            gameOver: false,
         })
         if(turn !== "player") this.AIplayCards()
     }
@@ -185,7 +193,7 @@ class Game extends Component{
                 this.setState({turn: "opponentLeft"}, ()=>{this.AIplayCards()})
             } else 
                 this.setState({turn: "player"})
-        }, 1500)
+        }, 1200)
             
 
     }
@@ -252,7 +260,6 @@ class Game extends Component{
                     <Opponent class="opponent-container-right" cardClass="computer-side" cards={this.state.opponentRightCards} ></Opponent>
                 </div>
             </div>
-            {/* <div className="game-player"> */}
                 <Player 
                     cards={this.state.playerCards}
                     playerTurn={(this.state.turn === "player")} 
@@ -260,9 +267,10 @@ class Game extends Component{
                     passTurn={this.playerPassTurn} 
                     turn={this.state.turn}
                     numberSort={this.numberSort}
-                    suitSort={this.suitSort}>
+                    suitSort={this.suitSort}
+                    gameOver={this.state.gameOver}
+                    resetGame={this.resetGame}>
                 </Player>
-            {/* </div> */}
         </div>
         )
     }
