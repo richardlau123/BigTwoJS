@@ -38,7 +38,6 @@ export function isValidStartingPlay(cards){
 export function isValidPlay(cards){
     if(cards == null) return false 
     sortCardsValue(cards)
-    console.log(cards)
     
     return isValidCardPairing(cards) || isValidFiveCardPlay(cards)
 }
@@ -49,10 +48,6 @@ export function isValidCardPairing(cards){
 
 export function isValidFiveCardPlay(cards){
     if(cards.length !== 5) return false
-    // console.log(isStraight(cards))
-    // console.log("is flush?", isFlush(cards))
-    // console.log("is fullhouse?", isFullHouse(cards))
-    // console.log("is 4kind?", isFourOfAKind(cards))
 
     return isStraight(cards) || isFlush(cards) || isFullHouse(cards) || isFourOfAKind(cards)
 }
@@ -83,13 +78,11 @@ function isFlush(cards){
 
 function isFullHouse(cards){
     let values = getCardValueArray(cards)
-    //console.log(values)
     return values[0] === values[1] && values[3] === values[4] && (values[2] === values[1] || values[2] === values[3])
 }
 
 function isFourOfAKind(cards){
     let values = getCardValueArray(cards)
-    //console.log(values)
     return (values[0] === values[1] && values[0] === values[2] && values[0] === values[3]) || (values[4] === values[1] && values[4] === values[2] && values[4] === values[3])
 }
 
@@ -167,7 +160,6 @@ export function getFiveCardRanking(cards){
     if(isValidFiveCardPlay(cards)){
         return (isStraight(cards) && isFlush(cards)) ? 5 : isStraight(cards) ? 1 : isFlush(cards) ? 2 : isFullHouse(cards) ? 3 : 4
     }
-    console.log("ERROR INVALID 5 CARD COMBO")
 }
 
 export function setUserCards(deck){

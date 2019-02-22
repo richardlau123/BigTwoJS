@@ -26,12 +26,14 @@ class PlayingField extends Component{
                         </div>
                     </div>
                     <div id="player" className="playingfield-section section-top">
+                        <div className="playingfield-player">
                         {this.props.player.map((card, i) => {
                                     return(<Card key={i} card={card} class="field-card" user="field" />)
                                 }
                             )}
-                    </div>
-                    
+                        </div>
+                        <div className="playingfield-text">{this.props.playerFieldText}</div>
+                    </div>    
                 </div>
                 )
         } 

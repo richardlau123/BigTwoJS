@@ -28,7 +28,6 @@ export function AIplayStartingTurn(cards){
 
 export function AIplayFreeMove(cards){
     Rules.sortCardsValue(cards)
-    console.log(cards)
     
     let selectedCards = getAllFiveCardPlays(cards)
 
@@ -45,7 +44,6 @@ export function AIselectSingleCard(cards, lastMove){
     
     for(let i=0;i<cards.length;i++){
         if(Rules.isStrongerSingle(lastMove[0], cards[i])){
-            console.log(cards[i])
             return [cards[i]]
         }
         
@@ -60,7 +58,6 @@ export function AIselectPair(cards, lastMove){
     if(pairs){
         for(let i=0;i<pairs.length;i++){
             if(Rules.isStrongerPair(lastMove, pairs[i])){
-                console.log(pairs[i])
                 return pairs[i]
             }
         }
@@ -74,7 +71,6 @@ export function AIselectFiveCardPlay(cards, lastMove){
     if(validSet){
         for(let i=0;i<validSet.length;i++){
             if(Rules.isStrongerPlay(lastMove, validSet[i])){
-                console.log(validSet[i])
                 return validSet[i]
             }
         }
@@ -123,16 +119,3 @@ function getAllPairs(cards){
 
     return pairs 
 }
-
-// var testingcards = [
-//     {type: "7", suit: "H", value: 7},
-//     {type: "7", suit: "D", value: 7},
-//     {type: "7", suit: "S", value: 7},
-//     {type: "7", suit: "C", value: 7},
-//     {type: "Q", suit: "H", value: 12},
-//     {type: "Q", suit: "D", value: 12},
-//     {type: "6", suit: "H", value: 6},
-//     {type: "5", suit: "H", value: 5},
-//     {type: "4", suit: "H", value: 4},
-//     {type: "8", suit: "H", value: 8},
-// ]

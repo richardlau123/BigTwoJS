@@ -39,7 +39,6 @@ class Game extends Component{
     }
 
     async resetGame(){
-        console.log("in resetgame")
         let deck = Rules.newDeck()
         
         let playerCards = await Rules.setUserCards(deck)
@@ -62,11 +61,13 @@ class Game extends Component{
             lastMovePlayer: null,
             freeMove: false,
             gameOver: false,
+            playerFieldText: "",
         })
         if(turn !== "player") this.AIplayCards()
     }
 
     playerPlayCards(cards){
+        this.setState({playerFieldText:""})
         if(this.state.startingTurn){
             let validPlay = Rules.isValidStartingPlay(cards)
             
@@ -75,7 +76,7 @@ class Game extends Component{
                 this.setState({startingTurn: false})
                 return true
             } else {
-                console.log("play must contain 3 of diamonds and be valid")
+                this.setState({playerFieldText: "starting turn must be valid and contain 3 of diamonds"})
             }
         } else {
             let validPlay = Rules.isValidPlay(cards)
@@ -85,7 +86,11 @@ class Game extends Component{
                 this.updateNextTurnCards(cards)
                 return true
             } else {
-                console.log("invalid play of cards or not stronger than previous play")
+                if(validPlay){
+                    this.setState({playerFieldText: "Your play must be valid and the same number of cards as the previous play"})
+                } else {
+                    this.setState({playerFieldText: "Your play must be stronger than the previous play"})
+                }
             }
         }
         
@@ -99,15 +104,12 @@ class Game extends Component{
             playableCards = Computer.AIplayStartingTurn(currentPlayerCards)
             this.setState({startingTurn: false})  
         } else {
-            console.log("last move player:", this.state.lastMovePlayer,"current turn is:", this.state.turn)
             if(this.state.lastMovePlayer === this.state.turn) {
                 playableCards = Computer.AIplayFreeMove(currentPlayerCards)
-                console.log(playableCards)
                 
             } else {
                 playableCards = Computer.AIplayCards(currentPlayerCards, this.state.lastMove)
             }
-            console.log(this.state.turn, playableCards)
         }
         
         this.updateNextTurnCards(playableCards)          
@@ -125,7 +127,7 @@ class Game extends Component{
         if(cards){
             let cardsPlayed = this.state.cardsPlayed
             let currentPlayerCards = this.getCardsforTurn()
-            console.log("update next cards:", cards)
+
             cards.forEach((card)=> {
                 currentPlayerCards.splice(currentPlayerCards.indexOf(card), 1)
                 
@@ -186,7 +188,7 @@ class Game extends Component{
         if(this.isGameOver()) return
         setTimeout(()=> {
             if(this.state.turn === "player") {
-                this.setState({turn: "opponentRight"}, ()=>{this.AIplayCards()})
+                this.setState({turn: "opponentRight", playerFieldText:""}, ()=>{this.AIplayCards()})
             } else if(this.state.turn === "opponentRight") {
                 this.setState({turn: "opponentTop"}, ()=>{this.AIplayCards()})
             } else if(this.state.turn === "opponentTop") {
@@ -194,14 +196,17 @@ class Game extends Component{
             } else 
                 this.setState({turn: "player"})
         }, 1200)
-            
 
     }
 
     playerPassTurn(){
-        this.setState({playerField: []})
-        this.displayPassTurn()
-        this.updateNextTurn()
+        if(this.state.startingTurn){
+            this.setState({playerFieldText:"You cannot pass the first turn"})
+        } else {
+            this.setState({playerField: [],playerFieldText:""})
+            this.displayPassTurn()
+            this.updateNextTurn()
+        }
     }
 
     numberSort(){
@@ -253,6 +258,7 @@ class Game extends Component{
                         opponentRight={this.state.opponentRightField}
                         opponentLeft={this.state.opponentLeftField}
                         opponentTop={this.state.opponentTopField}
+                        playerFieldText={this.state.playerFieldText}
                     >    
                     </PlayingField>
                 </div>

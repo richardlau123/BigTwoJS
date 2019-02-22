@@ -58,7 +58,7 @@
 }
 
 .player-action {
-  width: 40%;
+  width: 30%;
   height: 100%;
   display:flex;
   flex-direction: column;
@@ -83,9 +83,10 @@
   text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
   text-align:center;
   outline: none;
-  max-width: 50%;
+  max-width: 40%;
+  min-width:40%;
   max-height: 20%;
-  font-size: 1.7vh;
+  font-size: 1vw;
   transition: all 0.2s;
 }
 
@@ -126,12 +127,26 @@
   height: 33.3%;
 }
 
+.playingfield-player{
+  display:flex;
+  flex-direction: row;
+  height: 85%;
+}
+.playingfield-text{
+  font-size: 1.3vw;
+  font-family: roboto;
+  height: 15%;
+}
 .section-middle{
   justify-content: space-evenly
 }
 
 .section-top{
-  justify-content: center
+  justify-content: center;
+}
+
+#player{
+  flex-direction: column;
 }
 
 .left-field{

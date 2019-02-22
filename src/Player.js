@@ -27,7 +27,6 @@ class Player extends Component{
         this.setState({
             selectedCards : newSelectedCards
         })
-        //console.log(this.state.selectedCards)
     }
 
     handlePlayClick(e){
