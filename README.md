@@ -1,4 +1,4 @@
-# Big Two
+## Big Two :spades: :hearts: :clubs: :diamonds: 
 
 Re-creation of the popular East Asian playing card game Big Two.
 
@@ -12,7 +12,7 @@ npm install
 npm start
 ```
 
-## Built With
+### Built With
 
 * JavaScript
 * React.js
