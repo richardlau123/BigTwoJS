@@ -1,6 +1,6 @@
 ## Big Two :spades: :hearts: :clubs: :diamonds: 
 
-Re-creation of the popular East Asian playing card game Big Two.
+Re-creation of "Big Two" - a popular East Asian playing card game.
 
 https://en.wikipedia.org/wiki/Big_two
 
